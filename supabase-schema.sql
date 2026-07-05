@@ -147,15 +147,38 @@ alter table quotes enable row level security;
 alter table inventory_items enable row level security;
 alter table photos enable row level security;
 
-create policy if not exists "dev companies all" on companies for all using (true) with check (true);
-create policy if not exists "dev profiles own" on profiles for all using (auth.uid() = id) with check (auth.uid() = id);
-create policy if not exists "dev customers all" on customers for all using (true) with check (true);
-create policy if not exists "dev facilities all" on facilities for all using (true) with check (true);
-create policy if not exists "dev employees all" on employees for all using (true) with check (true);
-create policy if not exists "dev jobs all" on jobs for all using (true) with check (true);
-create policy if not exists "dev checklist all" on checklist_items for all using (true) with check (true);
-create policy if not exists "dev inspections all" on inspections for all using (true) with check (true);
-create policy if not exists "dev issues all" on maintenance_issues for all using (true) with check (true);
-create policy if not exists "dev quotes all" on quotes for all using (true) with check (true);
-create policy if not exists "dev inventory all" on inventory_items for all using (true) with check (true);
-create policy if not exists "dev photos all" on photos for all using (true) with check (true);
+drop policy if exists "dev companies all" on companies;
+create policy "dev companies all" on companies for all using (true) with check (true);
+
+drop policy if exists "dev profiles own" on profiles;
+create policy "dev profiles own" on profiles for all using (auth.uid() = id) with check (auth.uid() = id);
+
+drop policy if exists "dev customers all" on customers;
+create policy "dev customers all" on customers for all using (true) with check (true);
+
+drop policy if exists "dev facilities all" on facilities;
+create policy "dev facilities all" on facilities for all using (true) with check (true);
+
+drop policy if exists "dev employees all" on employees;
+create policy "dev employees all" on employees for all using (true) with check (true);
+
+drop policy if exists "dev jobs all" on jobs;
+create policy "dev jobs all" on jobs for all using (true) with check (true);
+
+drop policy if exists "dev checklist all" on checklist_items;
+create policy "dev checklist all" on checklist_items for all using (true) with check (true);
+
+drop policy if exists "dev inspections all" on inspections;
+create policy "dev inspections all" on inspections for all using (true) with check (true);
+
+drop policy if exists "dev issues all" on maintenance_issues;
+create policy "dev issues all" on maintenance_issues for all using (true) with check (true);
+
+drop policy if exists "dev quotes all" on quotes;
+create policy "dev quotes all" on quotes for all using (true) with check (true);
+
+drop policy if exists "dev inventory all" on inventory_items;
+create policy "dev inventory all" on inventory_items for all using (true) with check (true);
+
+drop policy if exists "dev photos all" on photos;
+create policy "dev photos all" on photos for all using (true) with check (true);
