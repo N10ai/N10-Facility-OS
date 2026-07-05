@@ -1,59 +1,48 @@
-# FacilityOS AI - Role Based Supabase v2
+# FacilityOS AI v4 - Users + Mobile Menu
 
-## Role organization
+## What changed
 
-### Creator / Admin
-Full business control:
-- Dashboard
-- Customers
-- Facilities
-- Jobs and schedule
-- Employees
-- Inspections
-- Maintenance opportunities
-- Quotes
-- Inventory
-- Reports
-- Settings
+1. Added a real mobile sidebar menu.
+   - On phone, tap `☰ Menu`.
+   - Sidebar opens as a drawer.
+   - Tap outside to close.
 
-### Customer
-Customer sees proof and value:
-- Service visits
-- Completed jobs
-- Photos and reports
-- Issues needing approval
-- Quotes
-- Billing
+2. Added Users & Access.
+   - Supabase login users are in Authentication → Users.
+   - App roles are stored in `profiles`.
+   - `profiles.customer_id` links a customer portal user.
+   - `profiles.employee_id` links an employee app user.
 
-Customer should not see margins, employee performance, payroll, internal notes, or admin settings.
+## Correct access structure
 
-### Employee
-Employee sees execution only:
-- Today's assigned jobs
-- Cleaning checklist
-- Photo upload
-- Report issue
-- Time clock
+auth.users = login account  
+profiles = role and access  
+customers = customer accounts  
+employees = worker records  
 
-Employee should not see pricing, customer contracts, revenue, or private business data.
+## Role logic
 
-## Supabase
-Project URL is already configured:
+Creator/Admin:
+- sees everything
+
+Customer:
+- should only see records linked to their `customer_id`
+
+Employee:
+- should only see jobs linked to their `employee_id`
+
+This version has development policies so you can build fast. Production RLS comes later.
+
+## Steps
+
+1. Replace repo files.
+2. Run `supabase-schema.sql` in Supabase SQL Editor.
+3. Refresh GitHub Pages.
+4. Login.
+5. Go to Creator/Admin → Users & Access.
+6. Click Create/Update My Creator Profile.
+7. Assign customer/employee access as needed.
+
+Supabase URL already configured:
 
 https://sjjeqxjsspcaxommavac.supabase.co
-
-Run `supabase-schema.sql` in Supabase SQL Editor first.
-
-## GitHub Pages
-Upload these files to your repo root:
-- index.html
-- manifest.json
-- supabase-schema.sql
-- README.md
-
-Then: Settings -> Pages -> Deploy from branch -> main -> root.
-
-## Brand color
-Accent color changed to a redder orange closer to your logo:
-
-#ef3b1f

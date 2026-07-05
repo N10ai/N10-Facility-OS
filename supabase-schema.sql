@@ -1,4 +1,8 @@
--- FacilityOS Cleaning SaaS schema for Supabase
+-- FacilityOS v4 Supabase Schema
+-- Adds app user access with profiles.customer_id and profiles.employee_id.
+-- Adds mobile menu in the app front-end.
+-- Run this entire script in Supabase SQL Editor.
+
 create extension if not exists "pgcrypto";
 
 create table if not exists companies (
@@ -37,6 +41,16 @@ create table if not exists facilities (
   address text,
   access_notes text,
   service_notes text,
+  status text default 'active',
+  created_at timestamptz default now()
+);
+
+create table if not exists facility_areas (
+  id uuid primary key default gen_random_uuid(),
+  facility_id uuid references facilities(id) on delete cascade,
+  name text not null,
+  area_type text,
+  instructions text,
   created_at timestamptz default now()
 );
 
@@ -57,6 +71,7 @@ create table if not exists jobs (
   company_id uuid references companies(id) on delete cascade,
   customer_id uuid references customers(id) on delete set null,
   facility_id uuid references facilities(id) on delete set null,
+  area_id uuid references facility_areas(id) on delete set null,
   employee_id uuid references employees(id) on delete set null,
   title text not null,
   job_type text default 'recurring_cleaning',
@@ -75,7 +90,8 @@ create table if not exists checklist_items (
   required boolean default true,
   requires_photo boolean default false,
   completed boolean default false,
-  completed_at timestamptz
+  completed_at timestamptz,
+  created_at timestamptz default now()
 );
 
 create table if not exists inspections (
@@ -92,9 +108,9 @@ create table if not exists maintenance_issues (
   company_id uuid references companies(id) on delete cascade,
   customer_id uuid references customers(id) on delete set null,
   facility_id uuid references facilities(id) on delete set null,
+  area_id uuid references facility_areas(id) on delete set null,
   job_id uuid references jobs(id) on delete set null,
   title text not null,
-  location text,
   description text,
   status text default 'open',
   customer_visible boolean default false,
@@ -120,7 +136,8 @@ create table if not exists inventory_items (
   category text,
   quantity numeric default 0,
   min_quantity numeric default 0,
-  unit text default 'each'
+  unit text default 'each',
+  created_at timestamptz default now()
 );
 
 create table if not exists photos (
@@ -134,10 +151,20 @@ create table if not exists photos (
   created_at timestamptz default now()
 );
 
+-- v4 migrations for existing projects
+alter table profiles add column if not exists customer_id uuid references customers(id) on delete set null;
+alter table profiles add column if not exists employee_id uuid references employees(id) on delete set null;
+alter table employees add column if not exists profile_id uuid references profiles(id) on delete set null;
+alter table jobs add column if not exists area_id uuid references facility_areas(id) on delete set null;
+alter table maintenance_issues add column if not exists area_id uuid references facility_areas(id) on delete set null;
+alter table maintenance_issues add column if not exists customer_visible boolean default false;
+alter table maintenance_issues add column if not exists job_id uuid references jobs(id) on delete set null;
+
 alter table companies enable row level security;
 alter table profiles enable row level security;
 alter table customers enable row level security;
 alter table facilities enable row level security;
+alter table facility_areas enable row level security;
 alter table employees enable row level security;
 alter table jobs enable row level security;
 alter table checklist_items enable row level security;
@@ -150,14 +177,17 @@ alter table photos enable row level security;
 drop policy if exists "dev companies all" on companies;
 create policy "dev companies all" on companies for all using (true) with check (true);
 
-drop policy if exists "dev profiles own" on profiles;
-create policy "dev profiles own" on profiles for all using (auth.uid() = id) with check (auth.uid() = id);
+drop policy if exists "dev profiles all" on profiles;
+create policy "dev profiles all" on profiles for all using (true) with check (true);
 
 drop policy if exists "dev customers all" on customers;
 create policy "dev customers all" on customers for all using (true) with check (true);
 
 drop policy if exists "dev facilities all" on facilities;
 create policy "dev facilities all" on facilities for all using (true) with check (true);
+
+drop policy if exists "dev facility areas all" on facility_areas;
+create policy "dev facility areas all" on facility_areas for all using (true) with check (true);
 
 drop policy if exists "dev employees all" on employees;
 create policy "dev employees all" on employees for all using (true) with check (true);
