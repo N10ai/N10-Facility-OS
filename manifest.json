@@ -1,1 +1,9 @@
-{"name":"FacilityOS","short_name":"FacilityOS","start_url":"./index.html","display":"standalone","background_color":"#0B0B0C","theme_color":"#E85D2A","icons":[]}
+{
+  "name": "FacilityOS AI",
+  "short_name": "FacilityOS",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#ef3b1f",
+  "icons": []
+}
