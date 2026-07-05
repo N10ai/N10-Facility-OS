@@ -1,48 +1,71 @@
-# FacilityOS AI v4 - Users + Mobile Menu
+# FacilityOS 1.0 Foundation
 
-## What changed
+Technical build package for the clean FacilityOS foundation.
 
-1. Added a real mobile sidebar menu.
-   - On phone, tap `☰ Menu`.
-   - Sidebar opens as a drawer.
-   - Tap outside to close.
+## Stack
 
-2. Added Users & Access.
-   - Supabase login users are in Authentication → Users.
-   - App roles are stored in `profiles`.
-   - `profiles.customer_id` links a customer portal user.
-   - `profiles.employee_id` links an employee app user.
+- React
+- Vite
+- Supabase Auth
+- Supabase PostgreSQL
+- Supabase-ready multi-tenant schema
+- Role-aware portals
+- Mobile drawer
+- Mobile bottom navigation
 
-## Correct access structure
+## Included connected modules
 
-auth.users = login account  
-profiles = role and access  
-customers = customer accounts  
-employees = worker records  
+- Company Setup
+- Profiles / Users
+- Customers
+- Facilities
+- Areas
+- Employees
+- Services
+- Jobs
+- Checklists
+- SOPs / Manuals
+- Issues
+- Quotes
+- Invoices
+- Photos
 
-## Role logic
+## Project setup
 
-Creator/Admin:
-- sees everything
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-Customer:
-- should only see records linked to their `customer_id`
+## Supabase setup
 
-Employee:
-- should only see jobs linked to their `employee_id`
+1. Open Supabase.
+2. Go to SQL Editor.
+3. Run `supabase-schema.sql`.
+4. In the project settings, confirm the URL and anon key match `.env`.
 
-This version has development policies so you can build fast. Production RLS comes later.
+Supabase URL already included in `.env.example`:
 
-## Steps
-
-1. Replace repo files.
-2. Run `supabase-schema.sql` in Supabase SQL Editor.
-3. Refresh GitHub Pages.
-4. Login.
-5. Go to Creator/Admin → Users & Access.
-6. Click Create/Update My Creator Profile.
-7. Assign customer/employee access as needed.
-
-Supabase URL already configured:
-
+```txt
 https://sjjeqxjsspcaxommavac.supabase.co
+```
+
+## Recommended build workflow
+
+From this point forward, add features by module and workflow only.
+
+Examples:
+
+- Module: Inventory
+- Workflow: Low supply report → manager approval → purchase order
+- Module: Payroll
+- Workflow: Clock in/out → approved hours → payroll summary
+- Module: QR Codes
+- Workflow: Scan area QR → load SOP/checklist → verify job location
+- Module: Photos
+- Workflow: Upload before/after photos → Supabase Storage → customer report
+- Module: Automations
+- Workflow: Job completed → generate report → notify customer → draft invoice
+
+Avoid patching isolated screens.
