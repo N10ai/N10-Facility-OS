@@ -47,7 +47,7 @@ button,input,select,textarea{font:inherit}.app{display:grid;grid-template-column
 </div>
 <script>
 const SUPABASE_URL="https://sjjeqxjsspcaxommavac.supabase.co";
-const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6InNqamVxeGpzc3BjYXhvbW1hdmFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyMjY4NDYsImV4cCI6MjA5ODgwMjg0Nn0.MIHJgK5co1NCepS9FkzLtxvCN39cOhE2N0m9RMkInM4";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqamVxeGpzc3BjYXhvbW1hdmFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyMjY4NDYsImV4cCI6MjA5ODgwMjg0Nn0.MIHJgK5co1NCepS9FkzLtxvCN39cOhE2N0m9RMkInM4";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const roleNav={creator:[["dashboard","Dashboard"],["customers","Customers"],["facilities","Facilities"],["jobs","Jobs & Schedule"],["employees","Employees"],["inspections","Inspections"],["maintenance","Maintenance"],["quotes","Quotes"],["inventory","Inventory"],["reports","Reports"],["settings","Settings"]],customer:[["customer-home","Overview"],["customer-jobs","Service Visits"],["customer-issues","Issues & Approvals"],["customer-reports","Reports"],["customer-billing","Billing"]],employee:[["employee-today","Today"],["employee-checklist","Checklist"],["employee-photos","Photos"],["employee-issues","Report Issue"],["employee-time","Time Clock"]]};
 let currentRole="creator",currentView="dashboard";
